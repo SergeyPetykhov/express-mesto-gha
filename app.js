@@ -1,3 +1,5 @@
+const NOT_FOUND_ERROR_CODE = 404;
+
 const express = require('express');
 const mongoose = require('mongoose');
 const { userRouter } = require('./routes/users');
@@ -22,7 +24,7 @@ app.use((req, res, next) => {
 app.use(userRouter);
 app.use(cardRouter);
 app.use('*', (req, res) => {
-  res.status(400).send({ message: 'Неправильно укзана запрос' });
+  res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Неправильно укзана запрос' });
 });
 
 app.listen(PORT, () => {
