@@ -80,6 +80,7 @@ const dislikeCard = (req, res) => {
   const { cardId } = req.params;
 
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
+    .orFail()
     .then((card) => {
       res.send({ data: card });
     })
