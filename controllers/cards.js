@@ -37,12 +37,17 @@ const deleteСard = (req, res) => {
   const { cardId } = req.params;
 
   Card.findByIdAndRemove(cardId)
+    .orFail()
     .then(() => {
       res.send({ message: 'Карточка удалена' });
     })
     .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Передан несуществующий _id карточки' });
+        return;
+      }
       if (err.name === 'CastError') {
-        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Карточка с указанным _id не найдена' });
+        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан несуществующий _id карточки' });
         return;
       }
       res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
