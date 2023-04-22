@@ -19,15 +19,20 @@ const getUser = (req, res) => {
   const { userId } = req.params;
 
   User.findById(userId)
+    .orFail()
     .then((user) => {
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Пользователь с указанным _id не найден' });
-      } else {
-        res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
+        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Пользователь с указанным _id не найден' });
+        return;
       }
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Пользователь с указанным _id не найден' });
+        return;
+      }
+      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
     });
 };
 
