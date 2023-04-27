@@ -1,7 +1,9 @@
-const CREATED_CODE = 201;
-const BAD_REQUEST_ERROR_CODE = 400;
-const NOT_FOUND_ERROR_CODE = 404;
-const INTERNAL_SERVER_ERROR_CODE = 500;
+const {
+  CREATED_CODE,
+  BAD_REQUEST_ERROR_CODE,
+  NOT_FOUND_ERROR_CODE,
+  INTERNAL_SERVER_ERROR_CODE,
+} = require('../constants/constants');
 
 const Card = require('../models/cards');
 
@@ -11,8 +13,8 @@ const getCards = (req, res) => {
     .then((cards) => {
       res.send({ data: cards });
     })
-    .catch((err) => {
-      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
+    .catch(() => {
+      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: 'Произошла неизвестная ошибка на сервере' });
     });
 };
 
@@ -28,7 +30,7 @@ const createCard = (req, res) => {
       if (err.name === 'ValidationError') {
         res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Переданы некорректные данные при создании карточки' });
       } else {
-        res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
+        res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: 'Произошла неизвестная ошибка на сервере' });
       }
     });
 };
@@ -47,10 +49,10 @@ const deleteСard = (req, res) => {
         return;
       }
       if (err.name === 'CastError') {
-        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан несуществующий _id карточки' });
+        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан некорректный _id карточки' });
         return;
       }
-      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
+      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: 'Произошла неизвестная ошибка на сервере' });
     });
 };
 
@@ -69,14 +71,14 @@ const likeCard = (req, res) => {
         return;
       }
       if (err.name === 'CastError') {
-        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан несуществующий _id карточки' });
+        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан некорректный _id карточки' });
         return;
       }
       if (err.name === 'ValidationError') {
         res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Переданы некорректные данные для постановки лайка' });
         return;
       }
-      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
+      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: 'Произошла неизвестная ошибка на сервере' });
     });
 };
 
@@ -95,14 +97,14 @@ const dislikeCard = (req, res) => {
         return;
       }
       if (err.name === 'CastError') {
-        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан несуществующий _id карточки' });
+        res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Передан некорректный _id карточки' });
         return;
       }
       if (err.name === 'ValidationError') {
         res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Переданы некорректные данные для снятия лайка' });
         return;
       }
-      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: `Произошла неизвестная ошибка ${err.name}: ${err.message}` });
+      res.status(INTERNAL_SERVER_ERROR_CODE).send({ message: 'Произошла неизвестная ошибка на сервере' });
     });
 };
 
