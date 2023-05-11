@@ -41,6 +41,7 @@ app.post('/signin', celebrate({
     password: Joi.string().required(),
   }),
 }), login);
+
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
@@ -51,7 +52,7 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-// protected routes
+// protected routes with middlewares auth
 app.use(userRouter);
 app.use(cardRouter);
 
@@ -68,6 +69,11 @@ app.use((err, req, res, next) => {
   console.log('ERROR NAME =>', err);
 
   if (err.name === 'AuthorizationError') {
+    res.status(err.statusCode).send({ message: err.message });
+    return;
+  }
+
+  if (err.name === 'ForbiddenError') {
     res.status(err.statusCode).send({ message: err.message });
     return;
   }
