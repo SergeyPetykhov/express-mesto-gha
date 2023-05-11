@@ -85,7 +85,7 @@ const createUser = (req, res, next) => {
         name,
         about,
         avatar,
-      })
+      }).select('+password')
         .then((newUser) => {
           res.status(CREATED_CODE).send({ data: newUser });
         })
