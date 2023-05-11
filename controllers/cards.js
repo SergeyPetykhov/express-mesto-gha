@@ -6,7 +6,7 @@ const {
   INTERNAL_SERVER_ERROR_CODE,
 } = require('../constants/constants');
 
-const AuthorizationError = require('../errors/AuthorizationError');
+const ForbiddenError = require('../errors/AuthorizationError');
 
 const Card = require('../models/cards');
 
@@ -70,7 +70,7 @@ const deleteСard = (req, res, next) => {
           // });
       } else {
        // res.status(UNAUTHORIZED_ERROR_CODE).send({ message: 'Нет прав для удаления этой карточки' });
-       return next(new AuthorizationError('Нет прав для удаления этой карточки'));
+       return next(new ForbiddenError('Нет прав для удаления этой карточки'));
       }
     })
     .catch(next);
