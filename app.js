@@ -65,7 +65,8 @@ app.use('*', (req, res) => {
 app.use(errors());
 
 // central error handler
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   if (err.name === 'AuthorizationError') {
     res.status(err.statusCode).send({ message: err.message });
     return;
