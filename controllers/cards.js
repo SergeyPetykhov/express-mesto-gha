@@ -1,5 +1,5 @@
 const { CREATED_CODE } = require('../constants/constants');
-const ForbiddenError = require('../errors/AuthorizationError');
+const ForbiddenError = require('../errors/ForbiddenError');
 const Card = require('../models/cards');
 
 const getCards = (req, res, next) => {
@@ -29,6 +29,7 @@ const deleteСard = (req, res, next) => {
   Card.findById(cardId)
     .orFail()
     .populate(['owner', 'likes'])
+    // eslint-disable-next-line consistent-return
     .then((card) => {
       const ownerId = card.owner._id.toString();
 

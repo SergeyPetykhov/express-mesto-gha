@@ -91,6 +91,7 @@ const login = (req, res, next) => {
   } = req.body;
 
   User.findOne({ email }).select('+password')
+    // eslint-disable-next-line consistent-return
     .then((user) => {
       if (!user) {
         return next(new AuthorizationError('Неправильные почта или пароль'));

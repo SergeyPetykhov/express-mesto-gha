@@ -65,9 +65,7 @@ app.use('*', (req, res) => {
 app.use(errors());
 
 // central error handler
-app.use((err, req, res, next) => {
-  console.log('ERROR NAME =>', err);
-
+app.use((err, req, res) => {
   if (err.name === 'AuthorizationError') {
     res.status(err.statusCode).send({ message: err.message });
     return;
