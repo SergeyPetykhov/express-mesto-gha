@@ -20,7 +20,7 @@ const errorsHandler = (err) => {
   }
 
   if (err === 'WrongPathError') {
-    return new ForbiddenError('Неправильно указан запрос');
+    return new NotFoundError('Неправильно указан запрос');
   }
 
   if (err.name === 'DocumentNotFoundError') {
