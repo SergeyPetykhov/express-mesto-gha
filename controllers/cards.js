@@ -45,7 +45,7 @@ const deleteСard = (req, res, next) => {
           })
           .catch(next);
       } else {
-        return next(new ForbiddenError('Нет прав для удаления этой карточки'));
+        next(new ForbiddenError('Нет прав для удаления этой карточки'));
       }
     })
     .catch((err) => {

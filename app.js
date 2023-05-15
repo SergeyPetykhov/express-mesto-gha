@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 const { auth } = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 const NotFoundError = require('./errors/NotFoundError');
-const { URL_REGULAR_EXP } = require('./constants/constants');
+const { URL_REGULAR_EXP, INTERNAL_SERVER_ERROR_CODE } = require('./constants/constants');
 
 const { userRouter } = require('./routes/users');
 const { cardRouter } = require('./routes/cards');
@@ -68,7 +68,7 @@ app.use((err, req, res, next) => {
   res
     .status(statusCode)
     .send({
-      message: statusCode === 500
+      message: statusCode === INTERNAL_SERVER_ERROR_CODE
         ? 'Произошла неизвестная ошибка на сервере'
         : message,
     });
