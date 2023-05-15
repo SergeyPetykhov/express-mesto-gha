@@ -79,17 +79,15 @@ const createUser = (req, res, next) => {
         .catch((err) => {
           if (err.code === 11000) {
             next(new ConflictError('Пользователь с таким E-mail уже существует'));
+          } else if (err.name === 'ValidationError') {
+            next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
           } else {
             next(err);
           }
         });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
-      } else {
-        next(err);
-      }
+      next((err));
     });
 };
 
@@ -107,6 +105,8 @@ const updateUserData = (req, res, next) => {
         next(new NotFoundError('Передан несуществующий _id пользователя'));
       } else if (err.name === 'CastError') {
         next(new BadRequestError('Передан некорректный _id пользователя'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя'));
       } else {
         next(err);
       }
@@ -127,6 +127,8 @@ const updateUserAvatar = (req, res, next) => {
         next(new NotFoundError('Передан несуществующий _id пользователя'));
       } else if (err.name === 'CastError') {
         next(new BadRequestError('Передан некорректный _id пользователя'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при обновлении аватара пользователя'));
       } else {
         next(err);
       }
