@@ -14,7 +14,7 @@ const mongoose = require('mongoose');
 
 const { auth } = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
-const errorsHandler = require('./errors/errorsHandler');
+const NotFoundError = require('./errors/NotFoundError');
 const { URL_REGULAR_EXP } = require('./constants/constants');
 
 const { userRouter } = require('./routes/users');
@@ -54,7 +54,7 @@ app.use(cardRouter);
 
 // wrong path
 app.use('*', auth, (req, res, next) => {
-  next(errorsHandler('WrongPathError'));
+  next(new NotFoundError('Страница не найдена'));
 });
 
 // celebrate error handler
