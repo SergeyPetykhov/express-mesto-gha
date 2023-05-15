@@ -85,7 +85,11 @@ const createUser = (req, res, next) => {
         });
     })
     .catch((err) => {
-      next((err));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+      } else {
+        next(err);
+      }
     });
 };
 
